@@ -1,19 +1,22 @@
 import React from 'react'
 import { GoogleAuthProvider, getAuth, signInWithPopup} from 'firebase/auth';
-import { app } from '../firebase';
+import { auth } from '../firebase.js';
 import { useDispatch } from 'react-redux';
 import { signInSuccess } from '../redux/user/userSlice.js';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+
 
 
 export default function OAuth() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const handleGoogleClick = async () => {
-        
+        if (loading) return;
+        setLoading(true);
         try{
             const provider = new GoogleAuthProvider();
-            const auth = getAuth(app);
             const result = await signInWithPopup(auth, provider);
 
             console.log("Google OAuth result:", result);
@@ -36,6 +39,6 @@ export default function OAuth() {
         }
     }
   return (
-    <button onClick={handleGoogleClick} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95'>Continue with google</button>
+    <button onClick={handleGoogleClick} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95'>{loading ? "Please wait..." : "Continue with Google"}</button>
   )
 }

@@ -5,7 +5,6 @@ import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
 import cookieParser from 'cookie-parser';
 import listingRouter from './routes/listing.route.js';
-import uploadRoutes from './routes/upload.route.js';
 import path from 'path';
 import cors from 'cors';
 
@@ -36,7 +35,7 @@ app.use(cors());
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/listing", listingRouter);
-app.use('/api', uploadRoutes);
+
 
 // app.use(express.static(path.join(__dirname, '/mern-project/dist')));
 // app.get('*', (req, res) => {

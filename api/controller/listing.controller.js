@@ -100,29 +100,33 @@ export const getListings = async (req, res, next) => {
 
 export const uploadImage = async (req, res) => {
   try {
-    const imageFile = req.files;
-        if (!imageFile || imageFile.length === 0) {
+    const imageFiles = req.files;
+        if (!imageFiles || imageFiles.length === 0) {
             return res.status(400).json({ success: false,message: 'No files were uploaded.' });
         }
         const urls = [];
-        const fileBuffer = fs.readFileSync(imageFile.path);
-            
-        //upload the imaage on imagekit
-        const response = await imagekit.upload({
-            file: fileBuffer,
-            fileName: imageFile.originalname,
-            folder: "/listings"
-        })
 
-        const optimizeImageURL = imagekit.url({
-            path:response.filePath,
-            transformation: [
-                {quality: 'auto'}, //auto compression
-                {format: 'webp'}, //convert to modern format
-                {width: '1280'} //width resizing
-            ]
-        })
-        urls.push(optimizeImageURL);
+        for(const file of imageFiles){
+
+            const fileBuffer = fs.readFileSync(file.path);
+                
+            //upload the imaage on imagekit
+            const response = await imagekit.upload({
+                file: fileBuffer,
+                fileName: file.originalname,
+                folder: "/listings"
+            })
+    
+            const optimizeImageURL = imagekit.url({
+                path:response.filePath,
+                transformation: [
+                    {quality: 'auto'}, //auto compression
+                    {format: 'webp'}, //convert to modern format
+                    {width: '1280'} //width resizing
+                ]
+            })
+            urls.push(optimizeImageURL);
+        }
     res.status(200).json({ success: true, urls });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
