@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import fs from 'fs';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,7 +7,6 @@ export default function CreateListing() {
     const {currentUser} = useSelector(state => state.user);
     const navigate = useNavigate();
     const [files, setFiles] = useState([]);
-    const [image, setImage] = useState(false);
     const [formData, setFormData] = useState({
         images: [],
         name:'',
@@ -24,6 +22,7 @@ export default function CreateListing() {
         furnished: false,
     })
     const [imageUploadError, setImageUploadError] = useState(false);
+    const [previewImages, setPreviewImages] = useState([]);
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -39,27 +38,24 @@ export default function CreateListing() {
     };
 
     const handleImageUpload = async () => {
-        if (files.length > 0 && files.length < 7) {
-            const url = Array.from(files).map(file => URL.createObjectURL(file));
-            setFormData({
-            ...formData,
-            images: formData.images.concat(url),
-            });
-        }
-        
+            
         if (files.length === 0) {
             return setImageUploadError("Please select at least one image");
         }
+        if (files.length > 6) {
+            return setImageUploadError("You can only upload up to 6 images");
+        }
+
         setUploading(true);
         setImageUploadError(false);
         try {
-            const formData = new FormData();
+            const formDataObj = new FormData();
             for (let i = 0; i < files.length; i++) {
-                formData.append('images', files[i]);
+                formDataObj.append("images", files[i]);
             }
             const res = await fetch('/api/listing/upload', {
                 method: 'POST',
-                body: formData,
+                body: formDataObj,
             });
             const data = await res.json();
             if(data.success === false){
@@ -67,9 +63,9 @@ export default function CreateListing() {
                 setUploading(false);
                 return;
             }else{
-                setFormData((formData) => ({
-                    ...formData, 
-                    images: [...formData.images, ...data.urls]})
+                setFormData((prev) => ({
+                    ...prev, 
+                    images: [...prev.images, ...data.urls]})
                 );
                 setImageUploadError(false);
             }
@@ -252,7 +248,7 @@ export default function CreateListing() {
                 </p>
                 <div className="flex gap-4">
                     <input 
-                        onChange={(e)=>setFiles(e.target.files)} 
+                        onChange={(e)=>setFiles(Array.from(e.target.files))} 
                         className='p-3 border border-gray-300 rounded w-full' 
                         type="file" id='images' accept='image/*' multiple/>
                     <button onClick={handleImageUpload} disabled={uploading}
@@ -260,7 +256,7 @@ export default function CreateListing() {
                     </button>
                 </div>
                 {formData.images.map((url, index) => (
-                    <img key={url} src={url} alt={`Selected ${index}`} className="w-32 h-32 object-cover m-2 rounded" />
+                    <img key={index} src={url} alt={`Selected ${index}`} className="w-32 h-32 object-cover m-2 rounded" />
                     ))}
                 <button disabled={loading || uploading} className='p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{loading? 'Creating' : 'Create Listing'}</button>
                 {error && <p className='text-red-700 text-sm'>{error}</p>}

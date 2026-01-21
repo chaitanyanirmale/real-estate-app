@@ -3,8 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailure,  deleteUserSuccess, signOutUserStart } from '../redux/user/userSlice.js';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-import {app} from '../firebase.js';
+
 
 export default function profile() {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -20,74 +19,7 @@ export default function profile() {
   const [userListings, setUserListings] = useState([]);
   // console.log(formData);
 
-  // useEffect(() => {
-  //   if(file){
-  //     handleFileUpload(file);
-  //   }
-  // }, [file]);
-
-
-  // const handleFileUpload = async (file) => {
-  //   const storage = getStorage(app);
-  //   const fileName = new Date().getTime() + file.name;
-  //   const storageRef = ref(storage, fileName);
-  //   const uploadTask = uploadBytesResumable(storageRef, file);
-
-  //   uploadTask.on('state_changed', 
-  //     (snapshot) => {
-  //       // Observe state change events such as progress, pause, and resume
-  //       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //       setFilePerc(Math.round(progress));
-  //     }, 
-  //     (error) => {
-  //       // Handle unsuccessful uploads
-  //       setFileUploadError(true);
-  //     },
-  //     () => {
-  //       getDownloadURL(uploadTask.snapshot.ref).then ((downloadURL) => {
-  //         setFormData({ ...formData, image: downloadURL });
-  //       });
-  //     })
-  //   }
-
   
-  //   if(!file) return
-  //   const data = new FormData()
-  //   data.append("file",file)
-  //   data.append("upload_preset", "eyy5pj1m")
-  //   data.append("cloud_name", "defqrn6nu")
-
-  //   await fetch("https://api.cloudinary.com/v1_1/defqrn6nu/image/upload",{
-  //     method: "POST",
-  //     body: data
-  //   })
-  //   const uploadImageURL = await res.json(uploadImageURL)
-  // }
-
-  // const handleFileChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       const base64 = reader.result;
-  //       setFormData((prev) => ({ ...formData, image: base64 }));
-  //       localStorage.setItem('profilePic', base64); // Save it to localStorage
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const savedImage = localStorage.getItem('profilePic');
-  //   if (savedImage) {
-  //     setFormData((formData) => ({ ...formData, image: savedImage }));
-  //   }
-  // }, []);
-
-
-
-
-
 
 
 

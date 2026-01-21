@@ -20,10 +20,10 @@ export const updateUser = async (req, res, next) => {
     }
     const updatedUser = await User.findByIdAndUpdate(req.params.id, {
       $set:{
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
-      Image: req.body.Image,
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+        Image: req.body.Image,
       } 
     },{new: true});
     const { password, ...rest } = updatedUser._doc;

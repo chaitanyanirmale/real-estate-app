@@ -100,33 +100,33 @@ export const getListings = async (req, res, next) => {
 
 export const uploadImage = async (req, res) => {
   try {
-    const imageFiles = req.files;
+        const imageFiles = req.files;
+
         if (!imageFiles || imageFiles.length === 0) {
-            return res.status(400).json({ success: false,message: 'No files were uploaded.' });
+        return res.status(400).json({ success: false, message: "No files were uploaded." });
         }
-        const urls = [];
 
-        for(const file of imageFiles){
+        // Upload all images concurrently
+        const uploadPromises = imageFiles.map(async (file) => {
+        // file.buffer is available because of memoryStorage
+        const response = await imagekit.upload({
+            file: file.buffer,             // Directly use buffer
+            fileName: file.originalname,   // Preserve original name
+            folder: "/listings"            // Folder in ImageKit
+        });
 
-            const fileBuffer = fs.readFileSync(file.path);
-                
-            //upload the imaage on imagekit
-            const response = await imagekit.upload({
-                file: fileBuffer,
-                fileName: file.originalname,
-                folder: "/listings"
-            })
-    
-            const optimizeImageURL = imagekit.url({
-                path:response.filePath,
-                transformation: [
-                    {quality: 'auto'}, //auto compression
-                    {format: 'webp'}, //convert to modern format
-                    {width: '1280'} //width resizing
-                ]
-            })
-            urls.push(optimizeImageURL);
-        }
+        // Generate optimized URL
+        return imagekit.url({
+            path: response.filePath,
+            transformation: [
+            { quality: "auto" }, // auto compression
+            { format: "webp" },  // modern format
+            { width: "1280" }    // resize width
+            ]
+        });
+        });
+
+        const urls = await Promise.all(uploadPromises);
     res.status(200).json({ success: true, urls });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
