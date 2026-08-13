@@ -14,7 +14,6 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/vite": "^4.1.10",
     "cookie-parser": "^1.4.7",
-    "firebase": "^11.9.1",
     "imagekit": "^6.0.0",
     "lucide-react": "^1.31.0",
     "multer": "^2.0.2",
