@@ -10,6 +10,6 @@ router.delete('/delete/:id', verifyToken, deleteListing);
 router.post('/update/:id', verifyToken, updateListing);
 router.get('/get/:id', getListing);
 router.get('/get', getListings); 
-router.post('/upload', upload.array('images'), uploadImage);
+router.post('/upload', upload.array('images', 6), uploadImage);
 
 export default router;

@@ -1,5 +1,9 @@
 import { Listing } from "../models/listing.model.js"
 import { errorHandler } from "../utils/error.js";
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 
 export const createListing = async (req, res, next) => {
     try{
@@ -98,37 +102,86 @@ export const getListings = async (req, res, next) => {
 }
 
 
+// export const uploadImage = async (req, res) => {
+//   try {
+//         const imageFiles = req.files;
+
+//         if (!imageFiles || imageFiles.length === 0) {
+//         return res.status(400).json({ success: false, message: "No files were uploaded." });
+//         }
+
+//         // Upload all images concurrently
+//         const uploadPromises = imageFiles.map(async (file) => {
+//         // file.buffer is available because of memoryStorage
+//         const response = await imagekit.upload({
+//             file: file.buffer,             // Directly use buffer
+//             fileName: file.originalname,   // Preserve original name
+//             folder: "/listings"            // Folder in ImageKit
+//         });
+
+//         // Generate optimized URL
+//         return imagekit.url({
+//             path: response.filePath,
+//             transformation: [
+//             { quality: "auto" }, // auto compression
+//             { format: "webp" },  // modern format
+//             { width: "1280" }    // resize width
+//             ]
+//         });
+//         });
+
+//         const urls = await Promise.all(uploadPromises);
+//     res.status(200).json({ success: true, urls });
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// };
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 export const uploadImage = async (req, res) => {
   try {
-        const imageFiles = req.files;
+    const imageFiles = req.files;
 
-        if (!imageFiles || imageFiles.length === 0) {
-        return res.status(400).json({ success: false, message: "No files were uploaded." });
-        }
+    if (!imageFiles || imageFiles.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'No files were uploaded.',
+      });
+    }
 
-        // Upload all images concurrently
-        const uploadPromises = imageFiles.map(async (file) => {
-        // file.buffer is available because of memoryStorage
-        const response = await imagekit.upload({
-            file: file.buffer,             // Directly use buffer
-            fileName: file.originalname,   // Preserve original name
-            folder: "/listings"            // Folder in ImageKit
-        });
+    const uploadDir = path.join(__dirname, '../uploads/listings');
 
-        // Generate optimized URL
-        return imagekit.url({
-            path: response.filePath,
-            transformation: [
-            { quality: "auto" }, // auto compression
-            { format: "webp" },  // modern format
-            { width: "1280" }    // resize width
-            ]
-        });
-        });
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
 
-        const urls = await Promise.all(uploadPromises);
-    res.status(200).json({ success: true, urls });
+    const urls = [];
+
+    for (const file of imageFiles) {
+    const extension = path.extname(file.originalname);
+      const fileName = `${Date.now()}-${Math.round(
+        Math.random() * 1e9
+      )}${extension}`;
+
+      const filePath = path.join(uploadDir, fileName);
+
+      fs.writeFileSync(filePath, file.buffer);
+
+      urls.push(`/uploads/listings/${fileName}`);
+    }
+
+    res.status(200).json({
+      success: true,
+      urls,
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.error('Image upload error:', error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
