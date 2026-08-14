@@ -168,7 +168,7 @@ export default function About() {
             </h2>
 
             <p className="text-slate-400 mt-4 leading-relaxed">
-              EstateHub is built using modern web technologies to provide a
+              PrimeNest is built using modern web technologies to provide a
               responsive and scalable real estate experience.
             </p>
           </div>

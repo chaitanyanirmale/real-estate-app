@@ -88,7 +88,7 @@ export default function Contact() {
                       Email
                     </p>
                     <p className="font-medium mt-1">
-                      support@estatehub.com
+                      support@primenest.com
                     </p>
                   </div>
                 </div>
@@ -104,7 +104,7 @@ export default function Contact() {
                       Phone
                     </p>
                     <p className="font-medium mt-1">
-                      +91 98765 43210
+                      +91 98765 XXXXX
                     </p>
                   </div>
                 </div>
