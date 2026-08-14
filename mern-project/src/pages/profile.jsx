@@ -349,9 +349,9 @@ export default function profile() {
                         to={`/listing/${listing._id}`}
                         className="w-32 sm:w-40 shrink-0"
                       >
-                      {listing.images?.[0] ? (
+                      {listing.images?.flat()?.[0] ? (
                           <img
-                            src={listing.images[0]}
+                            src={`http://localhost:5000${listing.images.flat()[0]}`}
                             alt={listing.name}
                             className="w-full h-full min-h-[150px] object-cover"
                           />
