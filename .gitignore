@@ -7,10 +7,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Dependencies
+node_modules/
+mern-project/node_modules/
+
+# Environment variables
+.env
+*.env
+!.env.example
+
+# Build files
+dist/
+mern-project/dist/
+dist-ssr/
+
 
 # Editor directories and files
 .vscode/*
@@ -22,4 +32,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-.env
