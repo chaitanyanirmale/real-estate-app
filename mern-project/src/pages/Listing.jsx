@@ -94,13 +94,12 @@ export default function Listing() {
       {listing && !loading && !error && (
         <div>
           <section className="relative">
-
             <Swiper
               navigation
               className="listing-swiper"
             >
-              {listing.images && listing.images.length > 0 ? (
-                listing.images.map((url, index) => (
+              {listing.images && listing.images.flat().length > 0 ? (
+                listing.images.flat().map((url, index) => (
                   <SwiperSlide key={index}>
                     <div className="relative h-[300px] sm:h-[450px] lg:h-[550px]">
                       <img

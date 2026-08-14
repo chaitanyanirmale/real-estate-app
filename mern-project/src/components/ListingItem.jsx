@@ -18,8 +18,9 @@ export default function ListingItem({ listing }) {
         <div className="relative overflow-hidden">
           <img
             src={
-              listing.images?.[0] ||
-              'https://images.pexels.com/photos/8134847/pexels-photo-8134847.jpeg'
+              listing.images?.flat()?.[0]
+                ? `http://localhost:5000${listing.images.flat()[0]}`
+                : 'https://images.pexels.com/photos/8134847/pexels-photo-8134847.jpeg'
             }
             alt={listing.name}
             className="h-[320px] sm:h-[220px] w-full object-cover group-hover:scale-105 transition-transform duration-500"
