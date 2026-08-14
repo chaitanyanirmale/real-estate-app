@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ListingItem from '../components/ListingItem';
-import SearchFilters from '../components/search/SearchFilters';
-import SearchResults from '../components/search/SearchResults';
+import SearchFilters from '../components/Search/SearchFilters';
+import SearchResults from '../components/Search/SearchResults';
 
 
 export default function Search() {
