@@ -382,11 +382,10 @@ className="space-y-6">
                 type="file"
                 id="images"
                 accept="image/*"
-                multiple // onChange={handleFileChange}
+                multiple
                 className="flex-1 border border-slate-200 rounded-xl p-3 text-sm"/>
               <button
                 type="button"
-                // onClick={handleUploadImages}
                 disabled={
                   uploading ||
                   files.length === 0 ||
@@ -409,9 +408,9 @@ className="space-y-6">
             {formData.images.length > 0 && (
               <div className="mt-6">
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                  {formData.images.map((image, index) => (
+                  {formData.images.flat().map((image, index) => (
                     <div key={`${image}-${index}`} className="relative group rounded-xl overflow-hidden border border-slate-200">
-                      <img src={image} alt={`Property ${index + 1}`} className="w-full h-40 object-cover"/>
+                      <img src={`http://localhost:5000${image}`} alt={`Property ${index + 1}`} className="w-full h-40 object-cover"/>
                       {index === 0 && (
                         <span className="absolute top-2 left-2 bg-green-600 text-white text-xs font-semibold px-2 py-1 rounded-lg">
                           Cover
