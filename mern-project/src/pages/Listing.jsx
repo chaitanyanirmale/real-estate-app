@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore from 'swiper/core';
 import { useSelector } from 'react-redux';
 import { Navigation } from 'swiper/modules';
+import ContactLandlord from '../components/ContactLandlord';
 import 'swiper/css/bundle';
 
 import {
@@ -16,8 +17,6 @@ import {
   Check,
   Tag,
 } from 'lucide-react';
-
-import Contact from '../components/Contact';
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
@@ -297,7 +296,7 @@ export default function Listing() {
 
             {contact && (
               <div className="mt-5">
-                <Contact listing={listing} />
+                <ContactLandlord listing={listing} />
               </div>
             )}
           </section>
