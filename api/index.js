@@ -16,19 +16,9 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
   console.error('MongoDB connection error:', err);
 });
 
-// const __dirname = path.resolve();
-
-
 const app = express();
-
 app.use(express.json());
-
 app.use(cookieParser());
-
-
-app.listen(5000, () => {
-  console.log('API server is running on port 5000');
-});
 
 app.use(cors());
 
@@ -44,10 +34,15 @@ app.use(
   express.static(path.join(__dirname, 'uploads'))
 );
 
-// app.use(express.static(path.join(__dirname, '/mern-project/dist')));
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '/mern-project/dist/index.html'));
-// })
+app.use(
+  express.static(path.join(__dirname, '../mern-project/dist'))
+);
+
+app.get('/{*splat}', (req, res) => {
+  res.sendFile(
+    path.join(__dirname, '../mern-project/dist/index.html')
+  );
+});
 
 app.use((err, req, res, next) => {
   const statusCode = res.statusCode || 500;
@@ -59,3 +54,9 @@ app.use((err, req, res, next) => {
   });
 })
 
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`API server is running on port ${PORT}`);
+});
