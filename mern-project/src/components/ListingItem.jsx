@@ -19,7 +19,7 @@ export default function ListingItem({ listing }) {
           <img
             src={
               listing.images?.flat()?.[0]
-                ? `http://localhost:5000${listing.images.flat()[0]}`
+                ? `${import.meta.env.VITE_API_URL}${listing.images.flat()[0]}`
                 : 'https://images.pexels.com/photos/8134847/pexels-photo-8134847.jpeg'
             }
             alt={listing.name}

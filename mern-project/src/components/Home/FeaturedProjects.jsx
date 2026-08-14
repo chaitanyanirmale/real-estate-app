@@ -82,7 +82,7 @@ const FeaturedProjects = () => {
               >
                 <div className="relative h-64 overflow-hidden">
                   <img
-                    src={listing.images?.flat()?.[0] ? `http://localhost:5000${listing.images.flat()[0]}` : 'https://images.pexels.com/photos/8134847/pexels-photo-8134847.jpeg'
+                    src={listing.images?.flat()?.[0] ? `${import.meta.env.VITE_API_URL}${listing.images.flat()[0]}` : 'https://images.pexels.com/photos/8134847/pexels-photo-8134847.jpeg'
                     }
                     alt={listing.name}
                     className="h-full w-full object-cover transition duration-700 group-hover:scale-110"

@@ -351,7 +351,7 @@ export default function profile() {
                       >
                       {listing.images?.flat()?.[0] ? (
                           <img
-                            src={`http://localhost:5000${listing.images.flat()[0]}`}
+                            src={`${import.meta.env.VITE_API_URL}${listing.images.flat()[0]}`}
                             alt={listing.name}
                             className="w-full h-full min-h-[150px] object-cover"
                           />

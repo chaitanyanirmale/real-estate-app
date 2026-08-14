@@ -410,7 +410,7 @@ className="space-y-6">
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                   {formData.images.flat().map((image, index) => (
                     <div key={`${image}-${index}`} className="relative group rounded-xl overflow-hidden border border-slate-200">
-                      <img src={`http://localhost:5000${image}`} alt={`Property ${index + 1}`} className="w-full h-40 object-cover"/>
+                      <img src={`${import.meta.env.VITE_API_URL}${image}`} alt={`Property ${index + 1}`} className="w-full h-40 object-cover"/>
                       {index === 0 && (
                         <span className="absolute top-2 left-2 bg-green-600 text-white text-xs font-semibold px-2 py-1 rounded-lg">
                           Cover

@@ -103,7 +103,7 @@ export default function Listing() {
                   <SwiperSlide key={index}>
                     <div className="relative h-[300px] sm:h-[450px] lg:h-[550px]">
                       <img
-                        src={`http://localhost:5000${url}`}
+                        src={`${import.meta.env.VITE_API_URL}${url}`}
                         alt={`${listing.name} ${index + 1}`}
                         className="w-full h-full object-cover"
                       />
@@ -131,9 +131,9 @@ export default function Listing() {
                 className="text-slate-700"
               />
             </button>
-            {listing.images?.length > 0 && (
+            {listing.images?.flat()?.length > 0 && (
               <div className="absolute bottom-5 right-5 z-10 bg-black/60 text-white text-xs px-3 py-1.5 rounded-full">
-                {listing.images.length} Photos
+                {listing.images.flat().length} Photos
               </div>
             )}
             {copied && (
